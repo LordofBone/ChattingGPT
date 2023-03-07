@@ -1,0 +1,9 @@
+/config/api_config.py
+.idea
+stuff.txt
+__pycache__
+*.egg-info/
+temp/*
+misc/*
+audio/*
+!audio/.gitkeep

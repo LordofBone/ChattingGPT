@@ -4,6 +4,10 @@ Check out this project into your code:
 
 ```git clone https://github.com/LordofBone/ChattingGPT```
 
+Install the requirements:
+
+```pip install -r requirements.txt```
+
 Then append the system path of the chatting_gpt folder to the system path of the project.
 
 `chatting_gpt_dir = os.path.join(path_to_chatting_gpt )`
@@ -14,7 +18,7 @@ Copy or rename 'config/api_config_template.py' to 'config/api_config.py' and fil
 
 import the integrate_chatgpt.py file into your project and instantiate the ChatGPT class:
 
-```from chatting_gpt import IntegrateChatGPT```
+```from ChattingGPT.integrate_chatgpt import IntegrateChatGPT```
 
 ```integrate_chatgpt_test = IntegrateChatGPT()```
 

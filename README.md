@@ -8,12 +8,6 @@ Install the requirements:
 
 ```pip install -r requirements.txt```
 
-Then append the system path of the chatting_gpt folder to the system path of the project.
-
-`chatting_gpt_dir = os.path.join(path_to_chatting_gpt )`
-
-`sys.path.append(chatting_gpt_dir)`
-
 Copy or rename 'config/api_config_template.py' to 'config/api_config.py' and fill in the appropriate values.
 
 import the integrate_chatgpt.py file into your project and instantiate the ChatGPT class:

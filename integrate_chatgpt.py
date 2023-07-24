@@ -1,5 +1,5 @@
 import openai
-from config.api_config import openai_api_key, default_model
+from .config.api_config import openai_api_key, default_model
 import logging
 
 
@@ -63,7 +63,3 @@ class IntegrateChatGPT:
         )
 
         return completion["choices"][0]["message"]["content"]
-
-
-if __name__ == '__main__':
-    print(main())

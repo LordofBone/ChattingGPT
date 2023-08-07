@@ -1,65 +1,81 @@
-import openai
-from .config.api_config import openai_api_key, default_model
 import logging
 
+import openai
 
-def main():
-    """
-    Main function for testing the chatgpt integration.
-    :return:
-    """
-    logging.basicConfig(level="DEBUG")
-    integrate_chatgpt_test = IntegrateChatGPT()
-    return integrate_chatgpt_test.get_chatgpt_response()
+from .config.api_config import openai_api_key, default_model
+
+logger = logging.getLogger(__name__)
+logger.debug("Initialized")
 
 
 class IntegrateChatGPT:
-    def __init__(self):
+    def __init__(self, model=default_model, role="You are a helpful assistant", use_history=False):
         """
         Initialize the chatgpt integration class along with the api key.
         """
-        self.api_key = openai_api_key
+        openai.api_key = openai_api_key
 
-        self.model = default_model
-
-        self.context = "You are a helpful code assistant for python"
-        self.text_input = "Can you please generate me some code that draws a spinning sphere in pyopengl"
-
-    def set_model(self, model):
-        """
-        Set the model for the chatgpt api.
-        :param model:
-        :return:
-        """
         self.model = model
 
-    def set_context(self, context):
+        self.context = role
+
+        self.use_history = use_history
+
+        self.conversation_history = [
+            {"role": "system", "content": self.context}
+        ]
+
+        logging.debug(f"Initialized with model: {model}, role: {role}, use_history: {use_history}")
+
+    def get_response(self, text_input):
         """
-        Set the context for the chatgpt api.
-        :param context:
+        Get the chatgpt response, using the context and text input set.
+        If use_history is True, it will maintain a conversation history.
         :return:
         """
-        self.context = context
+        logging.debug(f"Received input: {text_input}")
+        if self.use_history:
+            return self._get_chatgpt_response_with_history(text_input)
+        else:
+            return self._get_chatgpt_response(text_input)
 
-    def set_text_input(self, text_input):
+    def _get_chatgpt_response(self, text_input):
         """
-        Set the text input for the chatgpt api.
+        Get the chatgpt response without using history.
+        :return:
+        """
+        response = openai.ChatCompletion.create(
+            model=self.model,
+            messages=[{"role": "system", "content": self.context},
+                      {"role": "user", "content": text_input}]
+        )
+
+        assistant_message = response['choices'][0]['message']['content']
+        logging.debug(f"Assistant response (without history): {assistant_message}")
+
+        return assistant_message
+
+    def _get_chatgpt_response_with_history(self, text_input):
+        """
+        Get the chatgpt response using history.
         :param text_input:
         :return:
         """
-        self.text_input = text_input
+        # Add user's message to the history
+        self.conversation_history.append({"role": "user", "content": text_input})
+        logging.debug(f"Conversation history: {self.conversation_history}")
 
-    def get_chatgpt_response(self):
-        """
-        Get the chatgpt response, using the context and text input set.
-        :return:
-        """
-        openai.api_key = self.api_key
-
-        completion = openai.ChatCompletion.create(
+        # Get a response from OpenAI
+        response = openai.ChatCompletion.create(
             model=self.model,
-            messages=[{"role": "system", "content": self.context},
-                      {"role": "user", "content": self.text_input}]
+            messages=self.conversation_history
         )
 
-        return completion["choices"][0]["message"]["content"]
+        # Extract the assistant's message from the response
+        assistant_message = response['choices'][0]['message']['content']
+        logging.debug(f"Assistant response (with history): {assistant_message}")
+
+        # Add assistant's message to the history
+        self.conversation_history.append({"role": "assistant", "content": assistant_message})
+
+        return assistant_message

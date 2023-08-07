@@ -8,38 +8,19 @@ Install the requirements:
 
 ```pip install -r requirements.txt```
 
-Copy or rename 'config/api_config_template.py' to 'config/api_config.py' and fill in the appropriate values.
+Copy or rename 'config/api_config_template.py' to 'config/api_config.py' and add your own API key
+from [OpenAI](https://platform.openai.com/)
 
 import the integrate_chatgpt.py file into your project and instantiate the ChatGPT class:
 
 ```from ChattingGPT.integrate_chatgpt import IntegrateChatGPT```
 
-```integrate_chatgpt_test = IntegrateChatGPT()```
+```integrate_chatgpt_test = IntegrateChatGPT(model="gpt-3.5-turbo", role="You are a helpful assistant", use_history=False)```
 
-```print(integrate_chatgpt_test.get_chatgpt_response())```
+```print(integrate_chatgpt_test.get_response())```
 
-IntegrateChatGPT, you can call
-the functions:
+You can find the list of text models [here](https://platform.openai.com/docs/models/gpt-3-5), the default is set to "
+gpt-3.5-turbo"
 
-```integrate_chatgpt_test.set_context(str) ```
-
-and 
-
-```integrate_chatgpt_test.set_text_input(str)```
-
-to set the context and text input respectively.
-
-Then you can call the function
-
-```integrate_chatgpt_test.get_chatgpt_response()```
-
-to get the output for any code that uses this class.
-
-The function for switching models:
-
-```integrate_chatgpt_test.set_model(str)```
-
-can also be called from the class to choose a different text completion model.
-
-You can find the list of text models [here](https://platform.openai.com/docs/models/gpt-3-5), the default is set to
-"gpt-3.5-turbo"
+Enabling history will allow the model to remember the conversation and give more context to the responses; much
+like ChatGPT in a browser does.

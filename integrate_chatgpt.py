@@ -2,7 +2,8 @@ import logging
 
 import openai
 
-from .config.api_config import openai_api_key, default_model
+from .config.api_config import (openai_api_key, default_model, temperature, max_tokens, top_p, n, frequency_penalty,
+                                presence_penalty, stop)
 
 logger = logging.getLogger(__name__)
 logger.debug("Initialized")
@@ -55,7 +56,9 @@ class IntegrateChatGPT:
 
         return assistant_message
 
-    def _get_chatgpt_response_with_history(self, text_input):
+    def _get_chatgpt_response_with_history(self, text_input, temperature_input=temperature, max_tokens_input=max_tokens,
+                                           top_p_input=top_p, n_input=n, frequency_penalty_input=frequency_penalty,
+                                           presence_penalty_input=presence_penalty, stop_input=stop):
         """
         Get the chatgpt response using history.
         :param text_input:
@@ -68,7 +71,13 @@ class IntegrateChatGPT:
         # Get a response from OpenAI
         response = openai.ChatCompletion.create(
             model=self.model,
-            messages=self.conversation_history
+            messages=self.conversation_history,
+            temperature=temperature_input,
+            max_tokens=max_tokens_input,
+            top_p=top_p_input,
+            frequency_penalty=frequency_penalty_input,
+            presence_penalty=presence_penalty_input,
+            stop=stop_input
         )
 
         # Extract the assistant's message from the response

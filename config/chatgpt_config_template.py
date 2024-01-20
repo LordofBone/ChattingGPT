@@ -1,0 +1,11 @@
+gpt_openai_api_key = "api_key_here"
+gpt_default_model = "gpt-3.5-turbo"
+gpt_default_role = "You are a helpful assistant"
+gpt_default_use_history = False
+gpt_temperature = 1.0
+gpt_max_tokens = 256
+gpt_top_p = 1
+gpt_n = 1
+gpt_frequency_penalty = 0
+gpt_presence_penalty = 0
+gpt_stop = None

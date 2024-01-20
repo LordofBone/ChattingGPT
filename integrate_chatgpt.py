@@ -1,90 +1,77 @@
-import logging
+from components.chatgpt_functions import ChatGPTSystem
+from components.ollama_functions import OllamaSystem
 
-import openai
+from config.chatgpt_config import (gpt_openai_api_key, gpt_default_model, gpt_default_role, gpt_default_use_history,
+                                   gpt_temperature,
+                                   gpt_max_tokens, gpt_top_p, gpt_n, gpt_frequency_penalty, gpt_presence_penalty,
+                                   gpt_stop)
 
-from .config.api_config import (openai_api_key, default_model, temperature, max_tokens, top_p, n, frequency_penalty,
-                                presence_penalty, stop)
+from config.ollama_config import (ollama_default_role, ollama_default_use_history, ollama_default_model,
+                                  ollama_default_base_url, ollama_default_mirostat,
+                                  ollama_default_mirostat_eta, ollama_default_mirostat_tau, ollama_default_num_ctx,
+                                  ollama_default_num_gpu,
+                                  ollama_default_repeat_last_n, ollama_default_repeat_penalty,
+                                  ollama_default_temperature, ollama_default_stop,
+                                  ollama_default_tfs_z, ollama_default_top_k, ollama_default_top_p)
 
-logger = logging.getLogger(__name__)
-logger.debug("Initialized")
+
+def IntegrateChatGPT(openai_api_key=gpt_openai_api_key,
+                     use_history=gpt_default_use_history,
+                     role=gpt_default_role,
+                     model=gpt_default_model,
+                     temperature=gpt_temperature,
+                     max_tokens=gpt_max_tokens,
+                     top_p=gpt_top_p,
+                     n=gpt_n,
+                     frequency_penalty=gpt_frequency_penalty,
+                     presence_penalty=gpt_presence_penalty,
+                     stop=gpt_stop):
+    chat_system_init = ChatGPTSystem(use_history=use_history,
+                                     role=role,
+                                     model=model,
+                                     openai_api_key=openai_api_key,
+                                     temperature=temperature,
+                                     max_tokens=max_tokens,
+                                     top_p=top_p,
+                                     n=n,
+                                     frequency_penalty=frequency_penalty,
+                                     presence_penalty=presence_penalty,
+                                     stop=stop)
+
+    return chat_system_init
 
 
-class IntegrateChatGPT:
-    def __init__(self, model=default_model, role="You are a helpful assistant", use_history=False):
-        """
-        Initialize the chatgpt integration class along with the api key.
-        """
-        openai.api_key = openai_api_key
+def IntegrateOllama(model=ollama_default_model,
+                    role=ollama_default_role,
+                    use_history=ollama_default_use_history,
+                    base_url=ollama_default_base_url,
+                    mirostat=ollama_default_mirostat,
+                    mirostat_eta=ollama_default_mirostat_eta,
+                    mirostat_tau=ollama_default_mirostat_tau,
+                    num_ctx=ollama_default_num_ctx,
+                    num_gpu=ollama_default_num_gpu,
+                    repeat_last_n=ollama_default_repeat_last_n,
+                    repeat_penalty=ollama_default_repeat_penalty,
+                    temperature=ollama_default_temperature,
+                    stop=ollama_default_stop,
+                    tfs_z=ollama_default_tfs_z,
+                    top_k=ollama_default_top_k,
+                    top_p=ollama_default_top_p):
+    chat_system_init = OllamaSystem(use_history=use_history,
+                                    role=role,
+                                    model=model,
+                                    base_url=base_url,
+                                    mirostat=mirostat,
+                                    mirostat_eta=mirostat_eta,
+                                    mirostat_tau=mirostat_tau,
+                                    num_ctx=num_ctx,
+                                    num_gpu=num_gpu,
+                                    repeat_last_n=repeat_last_n,
+                                    repeat_penalty=repeat_penalty,
+                                    temperature=temperature,
+                                    stop=stop,
+                                    tfs_z=tfs_z,
+                                    top_k=top_k,
+                                    top_p=top_p)
 
-        self.model = model
-
-        self.context = role
-
-        self.use_history = use_history
-
-        self.conversation_history = [
-            {"role": "system", "content": self.context}
-        ]
-
-        logging.debug(f"Initialized with model: {model}, role: {role}, use_history: {use_history}")
-
-    def get_response(self, text_input):
-        """
-        Get the chatgpt response, using the context and text input set.
-        If use_history is True, it will maintain a conversation history.
-        :return:
-        """
-        logging.debug(f"Received input: {text_input}")
-        if self.use_history:
-            return self._get_chatgpt_response_with_history(text_input)
-        else:
-            return self._get_chatgpt_response(text_input)
-
-    def _get_chatgpt_response(self, text_input):
-        """
-        Get the chatgpt response without using history.
-        :return:
-        """
-        response = openai.ChatCompletion.create(
-            model=self.model,
-            messages=[{"role": "system", "content": self.context},
-                      {"role": "user", "content": text_input}]
-        )
-
-        assistant_message = response['choices'][0]['message']['content']
-        logging.debug(f"Assistant response (without history): {assistant_message}")
-
-        return assistant_message
-
-    def _get_chatgpt_response_with_history(self, text_input, temperature_input=temperature, max_tokens_input=max_tokens,
-                                           top_p_input=top_p, n_input=n, frequency_penalty_input=frequency_penalty,
-                                           presence_penalty_input=presence_penalty, stop_input=stop):
-        """
-        Get the chatgpt response using history.
-        :param text_input:
-        :return:
-        """
-        # Add user's message to the history
-        self.conversation_history.append({"role": "user", "content": text_input})
-        logging.debug(f"Conversation history: {self.conversation_history}")
-
-        # Get a response from OpenAI
-        response = openai.ChatCompletion.create(
-            model=self.model,
-            messages=self.conversation_history,
-            temperature=temperature_input,
-            max_tokens=max_tokens_input,
-            top_p=top_p_input,
-            frequency_penalty=frequency_penalty_input,
-            presence_penalty=presence_penalty_input,
-            stop=stop_input
-        )
-
-        # Extract the assistant's message from the response
-        assistant_message = response['choices'][0]['message']['content']
-        logging.debug(f"Assistant response (with history): {assistant_message}")
-
-        # Add assistant's message to the history
-        self.conversation_history.append({"role": "assistant", "content": assistant_message})
-
-        return assistant_message
+    return chat_system_init

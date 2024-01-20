@@ -1,9 +1,0 @@
-openai_api_key = "api_key_here"
-default_model = "gpt-3.5-turbo"
-temperature = 1.0,
-max_tokens = 16,
-top_p = 1,
-n = 1,
-frequency_penalty = 0,
-presence_penalty = 0,
-stop = []

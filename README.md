@@ -1,4 +1,4 @@
-### Usage
+## Installation & Setup
 
 This can either be used for using the ChatGPT API or the Ollama API (running locally) please note that running Ollama
 will require quite a lot of ram (at least 8GB to get good performance), but will allow for very good responses without

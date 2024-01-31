@@ -45,14 +45,14 @@ class OllamaSystem:
                              top_k=top_k,
                              top_p=top_p)
 
-        logging.debug(f"Initialized with use_history: {self.use_history}")
+        logger.debug(f"Initialized with use_history: {self.use_history}")
 
     def get_response(self, text_input):
         """
         Get the chatbot response using the input text.
         If 'use_history' is True, it will maintain a conversation history, making for a more consistent back and forth.
         """
-        logging.debug(f"Received input: {text_input}")
+        logger.debug(f"Received input: {text_input}")
         if self.use_history:
             return self._get_llm_response_with_history(text_input)
         else:
@@ -64,7 +64,7 @@ class OllamaSystem:
         """
         response = self.ollama(text_input)
 
-        logging.debug(f"Response (without history): {response}")
+        logger.debug(f"Response (without history): {response}")
 
         return response
 
@@ -73,11 +73,11 @@ class OllamaSystem:
         Get the chatbot response using history.
         """
         self.conversation_history.append(text_input)
-        logging.debug(f"Conversation history: {self.conversation_history}")
+        logger.debug(f"Conversation history: {self.conversation_history}")
 
         response = self.ollama(" ".join(self.conversation_history))
 
-        logging.debug(f"Response (with history): {response}")
+        logger.debug(f"Response (with history): {response}")
 
         self.conversation_history.append(response)
 

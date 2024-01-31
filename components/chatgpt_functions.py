@@ -44,7 +44,7 @@ class ChatGPTSystem:
             {"role": "system", "content": f"{self.role}"}
         ]
 
-        logging.debug(f"Initialized with model: {model}, role: {role}, use_history: {use_history}")
+        logger.debug(f"Initialized with model: {model}, role: {role}, use_history: {use_history}")
 
     def get_response(self, text_input):
         """
@@ -52,7 +52,7 @@ class ChatGPTSystem:
         If 'use_history' is True, it will maintain a conversation history, making for a more consistent back and forth.
         :return:
         """
-        logging.debug(f"Received input: {text_input}")
+        logger.debug(f"Received input: {text_input}")
         if self.use_history:
             return self._get_chatgpt_response_with_history(text_input)
         else:
@@ -80,7 +80,7 @@ class ChatGPTSystem:
 
         # Extract the assistant's message from the response
         assistant_message = response.choices[0].message.content
-        logging.debug(f"Assistant response (without history): {assistant_message}")
+        logger.debug(f"Assistant response (without history): {assistant_message}")
 
         return assistant_message
 
@@ -93,7 +93,7 @@ class ChatGPTSystem:
         # Add user's message to the history
         self.conversation_history.append({"role": "user", "content": text_input})
 
-        logging.debug(f"Conversation history: {self.conversation_history}")
+        logger.debug(f"Conversation history: {self.conversation_history}")
 
         # Get a response from OpenAI
         response = self.client.chat.completions.create(
@@ -110,7 +110,7 @@ class ChatGPTSystem:
 
         # Extract the assistant's message from the response
         assistant_message = response.choices[0].message.content
-        logging.debug(f"Assistant response (with history): {assistant_message}")
+        logger.debug(f"Assistant response (with history): {assistant_message}")
 
         # Add assistant's message to the history
         self.conversation_history.append({"role": "assistant", "content": assistant_message})

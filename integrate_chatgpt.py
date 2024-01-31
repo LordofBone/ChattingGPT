@@ -1,3 +1,8 @@
+import logging
+
+logger = logging.getLogger(__name__)
+logger.debug("Initialized")
+
 from components.chatgpt_functions import ChatGPTSystem
 from components.ollama_functions import OllamaSystem
 
@@ -38,6 +43,8 @@ def IntegrateChatGPT(openai_api_key=gpt_openai_api_key,
                                      presence_penalty=presence_penalty,
                                      stop=stop)
 
+    logger.debug(f"Initialized ChatGPT with use_history: {use_history}")
+
     return chat_system_init
 
 
@@ -73,5 +80,7 @@ def IntegrateOllama(model=ollama_default_model,
                                     tfs_z=tfs_z,
                                     top_k=top_k,
                                     top_p=top_p)
+
+    logger.debug(f"Initialized Ollama with use_history: {use_history}")
 
     return chat_system_init

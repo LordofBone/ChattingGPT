@@ -3,21 +3,21 @@ import logging
 logger = logging.getLogger(__name__)
 logger.debug("Initialized")
 
-from components.chatgpt_functions import ChatGPTSystem
-from components.ollama_functions import OllamaSystem
+from .components.chatgpt_functions import ChatGPTSystem
+from .components.ollama_functions import OllamaSystem
 
-from config.chatgpt_config import (gpt_openai_api_key, gpt_default_model, gpt_default_role, gpt_default_use_history,
-                                   gpt_temperature,
-                                   gpt_max_tokens, gpt_top_p, gpt_n, gpt_frequency_penalty, gpt_presence_penalty,
-                                   gpt_stop)
+from .config.chatgpt_config import (gpt_openai_api_key, gpt_default_model, gpt_default_role, gpt_default_use_history,
+                                    gpt_temperature,
+                                    gpt_max_tokens, gpt_top_p, gpt_n, gpt_frequency_penalty, gpt_presence_penalty,
+                                    gpt_stop)
 
-from config.ollama_config import (ollama_default_role, ollama_default_use_history, ollama_default_model,
-                                  ollama_default_base_url, ollama_default_mirostat,
-                                  ollama_default_mirostat_eta, ollama_default_mirostat_tau, ollama_default_num_ctx,
-                                  ollama_default_num_gpu,
-                                  ollama_default_repeat_last_n, ollama_default_repeat_penalty,
-                                  ollama_default_temperature, ollama_default_stop,
-                                  ollama_default_tfs_z, ollama_default_top_k, ollama_default_top_p)
+from .config.ollama_config import (ollama_default_role, ollama_default_use_history, ollama_default_model,
+                                   ollama_default_base_url, ollama_default_mirostat,
+                                   ollama_default_mirostat_eta, ollama_default_mirostat_tau, ollama_default_num_ctx,
+                                   ollama_default_num_gpu,
+                                   ollama_default_repeat_last_n, ollama_default_repeat_penalty,
+                                   ollama_default_temperature, ollama_default_stop,
+                                   ollama_default_tfs_z, ollama_default_top_k, ollama_default_top_p)
 
 
 def IntegrateChatGPT(openai_api_key=gpt_openai_api_key,

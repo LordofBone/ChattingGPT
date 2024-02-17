@@ -39,9 +39,14 @@ from ChattingGPT.integrate_chatgpt import IntegrateChatGPT, IntegrateOllama
 ```
 
 ## ChatGPT API Usage
+Make a file in the root of your project:
 
-Copy or rename 'config/chatgpt_config_template.py' to 'config/chatgpt_config.py' and add your own API key
-from [OpenAI](https://platform.openai.com/)
+```.env```
+
+And add the following line:
+```OPENAI_API_KEY=<your_api_key>```
+
+Adding your own API key from [OpenAI](https://platform.openai.com/)
 
 Having already imported the integrate_chatgpt.py file into your project, instantiate the ChatGPT class:
 

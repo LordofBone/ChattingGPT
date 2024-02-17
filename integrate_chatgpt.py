@@ -2,11 +2,12 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.debug("Initialized")
+from components.openai_api_key import gpt_openai_api_key
 
 from .components.chatgpt_functions import ChatGPTSystem
 from .components.ollama_functions import OllamaSystem
 
-from .config.chatgpt_config import (gpt_openai_api_key, gpt_default_model, gpt_default_role, gpt_default_use_history,
+from .config.chatgpt_config import (gpt_default_model, gpt_default_role, gpt_default_use_history,
                                     gpt_temperature,
                                     gpt_max_tokens, gpt_top_p, gpt_n, gpt_frequency_penalty, gpt_presence_penalty,
                                     gpt_stop)

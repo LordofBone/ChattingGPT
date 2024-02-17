@@ -1,4 +1,3 @@
-gpt_openai_api_key = "api_key_here"
 gpt_default_model = "gpt-3.5-turbo"
 gpt_default_role = "You are a helpful assistant"
 gpt_default_use_history = False

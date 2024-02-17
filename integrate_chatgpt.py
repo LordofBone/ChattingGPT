@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.debug("Initialized")
-from components.openai_api_key import gpt_openai_api_key
+from .components.openai_api_key import gpt_openai_api_key
 
 from .components.chatgpt_functions import ChatGPTSystem
 from .components.ollama_functions import OllamaSystem

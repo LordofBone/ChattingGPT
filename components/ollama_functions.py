@@ -52,7 +52,7 @@ class OllamaSystem:
         Get the chatbot response using the input text.
         If 'use_history' is True, it will maintain a conversation history, making for a more consistent back and forth.
         """
-        logger.debug(f"Received input: {text_input}")
+        logger.info(f"Processing response with input: {text_input}")
         if self.use_history:
             return self._get_llm_response_with_history(text_input)
         else:
@@ -64,7 +64,7 @@ class OllamaSystem:
         """
         response = self.ollama(text_input)
 
-        logger.debug(f"Response (without history): {response}")
+        logger.info(f"Response (without history): {response}")
 
         return response
 
@@ -77,7 +77,7 @@ class OllamaSystem:
 
         response = self.ollama(" ".join(self.conversation_history))
 
-        logger.debug(f"Response (with history): {response}")
+        logger.info(f"Response (with history): {response}")
 
         self.conversation_history.append(response)
 

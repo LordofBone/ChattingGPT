@@ -52,7 +52,7 @@ class ChatGPTSystem:
         If 'use_history' is True, it will maintain a conversation history, making for a more consistent back and forth.
         :return:
         """
-        logger.debug(f"Received input: {text_input}")
+        logger.info(f"Processing response with input: {text_input}")
         if self.use_history:
             return self._get_chatgpt_response_with_history(text_input)
         else:
@@ -80,7 +80,7 @@ class ChatGPTSystem:
 
         # Extract the assistant's message from the response
         assistant_message = response.choices[0].message.content
-        logger.debug(f"Assistant response (without history): {assistant_message}")
+        logger.info(f"Assistant response (without history): {assistant_message}")
 
         return assistant_message
 
@@ -110,7 +110,7 @@ class ChatGPTSystem:
 
         # Extract the assistant's message from the response
         assistant_message = response.choices[0].message.content
-        logger.debug(f"Assistant response (with history): {assistant_message}")
+        logger.info(f"Assistant response (with history): {assistant_message}")
 
         # Add assistant's message to the history
         self.conversation_history.append({"role": "assistant", "content": assistant_message})
